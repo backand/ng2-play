@@ -20,6 +20,27 @@ gulp.task('ts2js', function () {
     return tsResult.js.pipe(gulp.dest('dist'));
 });
 
+// copy dependencies
+gulp.task('copy', ['clean'], function() {
+    return gulp.src([
+            './node_modules/angular2/bundles/angular2-polyfills.js',
+            './node_modules/es6-shim/es6-shim.min.js',
+            './node_modules/systemjs/dist/system.js',
+            './node_modules/rxjs/bundles/Rx.js',
+            './node_modules/angular2/bundles/angular2.min.js',
+            './node_modules/angular2/bundles/http.min.js'
+        ])
+        .pipe(gulp.dest('./dist/lib'))
+});
+
+
+gulp.task('index', ['copy'], function(){
+    return gulp.src([
+            './index.html'
+        ])
+        .pipe(gulp.dest('./dist'))
+});
+
 gulp.task('play', ['ts2js'], function () {
     var http = require('http');
     var connect = require('connect');
